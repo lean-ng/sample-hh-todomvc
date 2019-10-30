@@ -11,6 +11,17 @@ export class TodoShellComponent {
   // Component State
   todoList: Todo[] = [];
 
+  // Computed Component State - not the best idea
+  get activeCount() {
+    return this.todoList.reduce((count, t) => t.completed ? count : count + 1, 0);
+  }
+  get hasCompleted() {
+    return this.todoList.findIndex(t => t.completed) !== -1;
+  }
+  get allCompleted() {
+    return this.todoList.findIndex(t => !t.completed) === -1;
+  }
+
   // Template Event Handlers
   createTodo(title: string) {
     const id = this.todoList.length === 0
