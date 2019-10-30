@@ -32,6 +32,9 @@ export class TodoShellComponent {
     const ix = this.todoList.indexOf(todo);
     this.todoList.splice(ix, 1);
   }
+  setAllCompletedStates(completed: boolean) {
+    this.todoList.forEach(t => t.completed = completed);
+  }
 
   // Optimizing ngFor-Directive
   todoId(todo: Todo) { return todo.id; }

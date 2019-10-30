@@ -6,6 +6,7 @@
   <section [ngClass]="{ hidden: todoList.length === 0 }" class="main">
     <input id="toggle-all" class="toggle-all" type="checkbox"
       [checked]="allCompleted"
+      (change)="setAllCompletedStates(!allCompleted)"
     >
     <label for="toggle-all">Mark all as complete</label>
     <ul class="todo-list">
