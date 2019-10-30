@@ -9,6 +9,9 @@
         "@schematics/angular:component": {
           "inlineStyle": true,
           "spec": false
+        },
+        "@schematics/angular:directive": {
+          "spec": false
         }
       },
       "root": "",
