@@ -13,7 +13,8 @@ export class TodoShellComponent {
 
   // Template Event Handlers
   createTodo(title: string) {
-    const id = this.todoList ? 1 : this.todoList[this.todoList.length - 1].id;
+    const id = this.todoList.length === 0
+      ? 1 : this.todoList[this.todoList.length - 1].id + 1;
     this.todoList.push({ id, title, completed: false });
   }
   removeTodo(todo: Todo) {
