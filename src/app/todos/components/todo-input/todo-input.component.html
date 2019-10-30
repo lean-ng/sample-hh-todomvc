@@ -1,0 +1,4 @@
+<input class="new-todo" placeholder="What needs to be done?" autofocus
+  [value]="title"
+  #fld (change)="title = fld.value" (keyup.enter)="createTodo()"
+>
