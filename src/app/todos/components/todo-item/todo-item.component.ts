@@ -35,7 +35,9 @@ export class TodoItemComponent {
     this.editMode = false;
   }
   commitEdit() {
-    this.todo.title = this.editText;
-    this.editMode = false;
+    if (this.editMode) {
+      this.todo.title = this.editText;
+      this.editMode = false;
+    }
   }
 }
