@@ -36,7 +36,11 @@ export class TodoItemComponent {
   }
   commitEdit() {
     if (this.editMode) {
-      this.todo.title = this.editText;
+      if (this.editText.trim().length === 0) {
+        this.removeTodo();
+      } else {
+        this.todo.title = this.editText.trim();
+      }
       this.editMode = false;
     }
   }
