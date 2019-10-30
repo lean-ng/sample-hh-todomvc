@@ -4,7 +4,7 @@
     <label (dblclick)="beginEdit()">{{ todo.title }}</label>
     <button class="destroy" (click)="removeTodo()"></button>
   </div>
-  <input class="edit" [value]="editText"
+  <input class="edit" [value]="editText" [focusOn]="editMode"
     #fld (change)="editText = fld.value"
     (keyup.escape)="cancelEdit()"
     (keyup.enter)="commitEdit()"
