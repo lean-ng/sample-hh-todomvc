@@ -12,4 +12,8 @@ export class TodoItemComponent {
   @Input()
   todo: Todo;
 
+  // Template Event Handlers
+  toggleCompleted() {
+    this.todo.completed = !this.todo.completed;
+  }
 }
