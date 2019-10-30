@@ -10,7 +10,7 @@
     >
     <label for="toggle-all">Mark all as complete</label>
     <ul class="todo-list">
-      <todo-item *ngFor="let t of todoList; trackBy: todoId"
+      <todo-item *ngFor="let t of filteredTodoList; trackBy: todoId"
         [todo]="t"
         (remove)="removeTodo(t)"
       ></todo-item>
