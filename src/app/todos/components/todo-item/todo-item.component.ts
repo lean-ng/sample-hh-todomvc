@@ -8,6 +8,10 @@ import { Todo } from '../../models/todo';
 })
 export class TodoItemComponent {
 
+  // Component State
+  editText: string;
+  editMode = false;
+
   // Public Input Properties
   @Input()
   todo: Todo;
@@ -22,5 +26,12 @@ export class TodoItemComponent {
   }
   removeTodo() {
     this.remove.emit();
+  }
+  beginEdit() {
+    this.editText = this.todo.title;
+    this.editMode = true;
+  }
+  cancelEdit() {
+    this.editMode = false;
   }
 }
