@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Todo } from '../../models/todo';
 
 @Component({
@@ -12,8 +12,15 @@ export class TodoItemComponent {
   @Input()
   todo: Todo;
 
+  // Public Output Events
+  @Output()
+  remove = new EventEmitter();
+
   // Template Event Handlers
   toggleCompleted() {
     this.todo.completed = !this.todo.completed;
+  }
+  removeTodo() {
+    this.remove.emit();
   }
 }

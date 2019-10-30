@@ -7,7 +7,10 @@
     <input id="toggle-all" class="toggle-all" type="checkbox" />
     <label for="toggle-all">Mark all as complete</label>
     <ul class="todo-list">
-      <todo-item *ngFor="let t of todoList; trackBy: todoId" [todo]="t"></todo-item>
+      <todo-item *ngFor="let t of todoList; trackBy: todoId"
+        [todo]="t"
+        (remove)="removeTodo(t)"
+      ></todo-item>
     </ul>
   </section>
   <!-- This footer should hidden by default and shown when there are todos -->
