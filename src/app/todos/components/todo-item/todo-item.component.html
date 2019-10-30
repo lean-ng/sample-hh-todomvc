@@ -5,6 +5,8 @@
     <button class="destroy" (click)="removeTodo()"></button>
   </div>
   <input class="edit" [value]="editText"
+    #fld (change)="editText = fld.value"
     (keyup.escape)="cancelEdit()"
+    (keyup.enter)="commitEdit()"
   >
 </li>

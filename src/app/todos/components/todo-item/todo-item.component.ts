@@ -34,4 +34,8 @@ export class TodoItemComponent {
   cancelEdit() {
     this.editMode = false;
   }
+  commitEdit() {
+    this.todo.title = this.editText;
+    this.editMode = false;
+  }
 }
