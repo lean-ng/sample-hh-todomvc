@@ -23,13 +23,13 @@ describe('Angular TodoMVC', () => {
     cy.visit('/');
   });
 
-  context.skip('When page is initially opened', () => {
+  context('When page is initially opened', () => {
     it('should focus on the todo input field', () => {
       cy.focused().should('have.class', 'new-todo');
     });
   });
 
-  context.skip('No Todos', function () {
+  context('No Todos', function () {
     it('starts with nothing', () => {
       cy.get(selectors.todoItems).should('have.length', 0);
     })
@@ -40,7 +40,7 @@ describe('Angular TodoMVC', () => {
     })
   });
 
-  context.skip('New Todo', () => {
+  context('New Todo', () => {
     it('should allow me to add todo items', () => {
       cy.get(selectors.newTodo).type(`${todoFixtures[0]}{enter}`);
       cy.get(selectors.todoItems).first().contains('label',todoFixtures[0]);
@@ -74,7 +74,7 @@ describe('Angular TodoMVC', () => {
       cy.get(selectors.footer).should('be.visible')
     });
 
-    it.skip('should persist added items', () => {
+    it('should persist added items', () => {
       cy.createTodo(todoFixtures[0]);
       cy.createTodo(todoFixtures[1]);
       cy.createTodo(todoFixtures[2]);
@@ -84,7 +84,7 @@ describe('Angular TodoMVC', () => {
     });
   });
 
-  context.skip('Mark all as completed', () => {
+  context('Mark all as completed', () => {
     beforeEach(() => {
       cy.createTodo(todoFixtures[0]);
       cy.createTodo(todoFixtures[1]);
@@ -122,7 +122,7 @@ describe('Angular TodoMVC', () => {
       cy.get(selectors.toggleAll).should('be.checked');
     });
 
-    it.skip('should persist completed state of items this way', () => {
+    it('should persist completed state of items this way', () => {
       cy.get(selectors.toggleAll).check();
       cy.reload();
       cy.get(selectors.toggleAll).should('be.checked');
@@ -130,7 +130,7 @@ describe('Angular TodoMVC', () => {
     });
   });
 
-  context.skip('Item', () => {
+  context('Item', () => {
     it('should allow me to mark items as complete', () => {
       cy.createTodo(todoFixtures[0]).as('firstTodo');
       cy.createTodo(todoFixtures[1]).as('secondTodo');
@@ -202,7 +202,7 @@ describe('Angular TodoMVC', () => {
       cy.get(selectors.todoItems).first().contains(todoFixtures[1]);
     });
 
-    it.skip('should persist marking/un-marking of items as complete', () => {
+    it('should persist marking/un-marking of items as complete', () => {
       cy.createTodo(todoFixtures[0]);
       cy.createTodo(todoFixtures[1]);
 
@@ -215,7 +215,7 @@ describe('Angular TodoMVC', () => {
       cy.get(selectors.todoItems).last().should('not.have.class', 'completed');
     });
 
-    it.skip('should persist editing of items', () => {
+    it('should persist editing of items', () => {
       cy.createTodo(todoFixtures[0]);
       cy.createTodo(todoFixtures[1]);
 
@@ -227,7 +227,7 @@ describe('Angular TodoMVC', () => {
       cy.get(selectors.todoItems).last().find('label').should('contain.text', 'E2E Testing with Cypress');
     });
 
-    it.skip('should persist edits commited via blur', function () {
+    it('should persist edits commited via blur', function () {
       cy.createTodo(todoFixtures[0]);
       cy.createTodo(todoFixtures[1]);
 
@@ -241,7 +241,7 @@ describe('Angular TodoMVC', () => {
       cy.get(selectors.todoItems).last().find('label').should('contain.text', 'E2E Testing with Cypress');
     });
 
-    it.skip('should persist deleting items', () => {
+    it('should persist deleting items', () => {
       cy.createTodo(todoFixtures[0]).as('todo');
       cy.createTodo(todoFixtures[1]);
 
@@ -250,7 +250,7 @@ describe('Angular TodoMVC', () => {
       cy.get(selectors.todoItems).should('have.length', 1);
     });
 
-    it.skip('should persist deleting items via empty edit text', () => {
+    it('should persist deleting items via empty edit text', () => {
       cy.createTodo(todoFixtures[0]).as('todo');
       cy.createTodo(todoFixtures[1]);
 
@@ -321,149 +321,147 @@ describe('Angular TodoMVC', () => {
     });
   });
 
-  /*
- context('Counter', function () {
-      it('should display the current number of todo items', function () {
-        cy.createTodo(TODO_ITEM_ONE)
-        cy.get(selectors.count).contains('1')
-        cy.createTodo(TODO_ITEM_TWO)
-        cy.get(selectors.count).contains('2')
-        checkNumberOfTodosInLocalStorage(2)
-      })
+  context('Counter', () => {
+    it('should display the current number of todo items', function () {
+      cy.createTodo(todoFixtures[0]).as('firstTodo');
+      cy.get(selectors.count).contains('1');
+      cy.createTodo(todoFixtures[1]).as('secondTodo');
+      cy.get(selectors.count).contains('2');
+      cy.createTodo(todoFixtures[2]).as('thirdTodo');
+      cy.get(selectors.count).contains('3');
+      cy.get('@firstTodo').find('.toggle').check();
+      cy.get(selectors.count).contains('2');
+      cy.get('@firstTodo').find('.destroy').click({force: true});
+      cy.get(selectors.count).contains('2');
+      cy.get('@secondTodo').find('.destroy').click({force: true});
+      cy.get(selectors.count).contains('1');
+    });
+
+    it('should pluralize the item-word', () => {
+      cy.get(selectors.count).contains('0 items left');
+      cy.createTodo(todoFixtures[0]);
+      cy.get(selectors.count).contains('1 item left');
+      cy.createTodo(todoFixtures[1]);
+      cy.get(selectors.count).contains('2 items left');
+      cy.createTodo(todoFixtures[2]);
+      cy.get(selectors.count).contains('3 items left');
+    });
+
+  });
+
+  context('Clear completed button', () => {
+    beforeEach(() => {
+      cy.createTodo(todoFixtures[0]);
+      cy.createTodo(todoFixtures[1]);
+      cy.createTodo(todoFixtures[2]);
+      cy.get(selectors.todoItems).as('todos');
+    });
+
+    it('should be visible if there are completed todos', () => {
+      cy.get('@todos').first().find('.toggle').check();
+      cy.get(selectors.clearCompleted).should('be.visible');
+    });
+
+    it('should remove completed items when clicked', () => {
+      cy.get('@todos').eq(0).find('.toggle').check();
+      cy.get('@todos').eq(2).find('.toggle').check();
+      cy.get(selectors.clearCompleted).click();
+      cy.get('@todos').should('have.length', 1);
+      cy.get('@todos').eq(0).should('contain', todoFixtures[1]);
     })
 
-    context('Clear completed button', function () {
-      beforeEach(function () {
-        cy.createDefaultTodos().as('todos')
-      })
-
-      it('should display the correct text', function () {
-        cy.get('@todos').eq(0).find('.toggle').check()
-        cy.get(selectors.clearCompleted).contains('Clear completed')
-      })
-
-      it('should remove completed items when clicked', function () {
-        cy.get('@todos').eq(1).find('.toggle').check()
-        cy.get(selectors.clearCompleted).click()
-        cy.get('@todos').should('have.length', 2)
-        cy.get('@todos').eq(0).should('contain', TODO_ITEM_ONE)
-        cy.get('@todos').eq(1).should('contain', TODO_ITEM_THREE)
-      })
-
-      it('should be hidden when there are no items that are completed', function () {
-        cy.get('@todos').eq(1).find('.toggle').check()
-        cy.get(selectors.clearCompleted).should('be.visible').click()
-        cy.get(selectors.clearCompleted).should('not.be.visible')
-      })
+    it('should be hidden when there are no items that are completed', () => {
+      cy.get(selectors.clearCompleted).should('not.be.visible');
+      cy.get('@todos').first().find('.toggle').check();
+      cy.get(selectors.clearCompleted).should('be.visible').click();
+      cy.get(selectors.clearCompleted).should('not.be.visible');
     })
+  });
 
-    context('Persistence', function () {
-      it('should persist its data', function () {
-        // mimicking TodoMVC tests
-        // by writing out this function
-        function testState () {
-          cy
-            .get('@firstTodo')
-            .should('contain', TODO_ITEM_ONE)
-            .and('have.class', 'completed')
-          cy
-            .get('@secondTodo')
-            .should('contain', TODO_ITEM_TWO)
-            .and('not.have.class', 'completed')
-        }
+  context('Routing', () => {
+    beforeEach(() => {
+      cy.createTodo(todoFixtures[0]);
+      cy.createTodo(todoFixtures[1]);
+      cy.createTodo(todoFixtures[2]);
+      cy.get(selectors.todoItems).as('todos');
+    });
 
-        cy.createTodo(TODO_ITEM_ONE).as('firstTodo')
-        cy.createTodo(TODO_ITEM_TWO).as('secondTodo')
-        cy.get('@firstTodo').find('.toggle').check().then(testState)
-        // at this point, the app might still not save
-        // the items in the local storage, for example KnockoutJS
-        // first recomputes the items and still have "[]"
-        checkTodosInLocalStorage(TODO_ITEM_ONE, true)
-        checkCompletedKeywordInLocalStorage()
+    it('should allow me to display active items', () => {
+      cy.get('@todos').eq(1).find('.toggle').check();
+      cy.contains(selectors.filterItems, 'Active').click();
+      cy.get(selectors.todoItems)
+        .should('have.length', 2)
+        .first()
+        .should('contain', todoFixtures[0]);
+        cy.get(selectors.todoItems).eq(1).should('contain', todoFixtures[2]);
+    });
 
-        // but there should be 1 completed item
-        checkNumberOfCompletedTodosInLocalStorage(1)
+    it('should allow me to display completed items', () => {
+      cy.get('@todos').eq(1).find('.toggle').check();
+      cy.get(selectors.filters).contains('Completed').click();
+      cy.get(selectors.todoItems).should('have.length', 1);
+    });
 
-        // now can reload
-        cy.reload().then(testState)
-      })
-    })
+    it('should allow me to display all items', () => {
+      cy.get('@todos').eq(1).find('.toggle').check();
+      cy.get(selectors.filters).contains('Active').click();
+      cy.get(selectors.filters).contains('Completed').click();
+      cy.get(selectors.filters).contains('All').click();
+      cy.get(selectors.todoItems).should('have.length', 3);
+    });
 
-    context('Routing', function () {
-      beforeEach(function () {
-        cy.createDefaultTodos().as('todos')
-        // make sure the app had a chance to save updated todos in storage
-        // before navigating to a new view, otherwise the items can get lost :(
-        // in some frameworks like Durandal
-        checkTodosInLocalStorage(TODO_ITEM_ONE)
-      })
+    it('should highlight the currently applied filter', () => {
+      cy
+        .contains(selectors.filterItems, 'All')
+        .should('have.class', 'selected');
 
-      it('should allow me to display active items', function () {
-        cy.get('@todos').eq(1).find('.toggle').check()
-        checkNumberOfCompletedTodosInLocalStorage(1)
-        cy.contains(selectors.filterItems, 'Active').click()
-        visibleTodos()
-          .should('have.length', 2)
-          .eq(0)
-          .should('contain', TODO_ITEM_ONE)
-        visibleTodos().eq(1).should('contain', TODO_ITEM_THREE)
-      })
+      cy.contains(selectors.filterItems, 'Active').click();
+      cy
+        .contains(selectors.filterItems, 'Active')
+        .should('have.class', 'selected');
 
-      it('should respect the back button', function () {
-        cy.get('@todos').eq(1).find('.toggle').check()
-        checkNumberOfCompletedTodosInLocalStorage(1)
+      cy.contains(selectors.filterItems, 'Completed').click();
+      cy
+        .contains(selectors.filterItems, 'Completed')
+        .should('have.class', 'selected');
+    });
 
-        cy.log('Showing all items')
-        cy.contains(selectors.filterItems, 'All').click()
-        visibleTodos().should('have.length', 3)
+    it('should respect the back button', function () {
+      cy.get('@todos').first().find('.toggle').check();
 
-        cy.log('Showing active items')
-        cy.contains(selectors.filterItems, 'Active').click()
-        cy.log('Showing completed items')
-        cy.contains(selectors.filterItems, 'Completed').click()
-        visibleTodos().should('have.length', 1)
+      cy.log('Showing all items');
+      cy.contains(selectors.filterItems, 'All').click();
+      cy.log('Showing active items');
+      cy.contains(selectors.filterItems, 'Active').click();
+      cy.log('Showing completed items');
+      cy.contains(selectors.filterItems, 'Completed').click();
 
-        cy.log('Back to active items')
-        cy.go('back')
-        visibleTodos().should('have.length', 2)
+      cy.log('Back to active items');
+      cy.go('back');
+      cy.get(selectors.todoItems).should('have.length', 2);
 
-        cy.log('Back to all items')
-        cy.go('back')
-        visibleTodos().should('have.length', 3)
-      })
+      cy.log('Back to all items');
+      cy.go('back');
+      cy.get(selectors.todoItems).should('have.length', 3);
+    });
 
-      it('should allow me to display completed items', function () {
-        visibleTodos().eq(1).find('.toggle').check()
-        checkNumberOfCompletedTodosInLocalStorage(1)
-        cy.get(selectors.filters).contains('Completed').click()
-        visibleTodos().should('have.length', 1)
-      })
+    it('should respect bookmarking/initial routing', () => {
+      cy.get('@todos').first().find('.toggle').check();
 
-      it('should allow me to display all items', function () {
-        visibleTodos().eq(1).find('.toggle').check()
-        checkNumberOfCompletedTodosInLocalStorage(1)
-        cy.get(selectors.filters).contains('Active').click()
-        cy.get(selectors.filters).contains('Completed').click()
-        cy.get(selectors.filters).contains('All').click()
-        visibleTodos().should('have.length', 3)
-      })
+      cy.log('Showing active items');
+      cy.contains(selectors.filterItems, 'Active').click();
+      cy.reload();
+      cy.get(selectors.todoItems).should('have.length', 2);
 
-      it('should highlight the currently applied filter', function () {
-        cy
-          .contains(selectors.filterItems, 'All')
-          .should('have.class', 'selected')
-        cy.contains(selectors.filterItems, 'Active').click()
-        // page change - active items
-        cy
-          .contains(selectors.filterItems, 'Active')
-          .should('have.class', 'selected')
-        cy.contains(selectors.filterItems, 'Completed').click()
-        // page change - completed items
-        cy
-          .contains(selectors.filterItems, 'Completed')
-          .should('have.class', 'selected')
-      })
-    })
-  })
-  */
+      cy.log('Showing completed items');
+      cy.contains(selectors.filterItems, 'Completed').click();
+      cy.reload();
+      cy.get(selectors.todoItems).should('have.length', 2);
+
+      cy.log('Showing all items');
+      cy.contains(selectors.filterItems, 'All').click();
+      cy.reload();
+      cy.get(selectors.todoItems).should('have.length', 3);
+    });
+  });
 });
