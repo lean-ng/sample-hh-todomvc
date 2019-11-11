@@ -210,7 +210,7 @@ describe('Angular TodoMVC', () => {
       cy.reload();
       cy.get(selectors.todoItems).last().should('have.class', 'completed');
 
-      cy.get(selectors.todoItems).last().find('.toggle').check();
+      cy.get(selectors.todoItems).last().find('.toggle').uncheck();
       cy.reload();
       cy.get(selectors.todoItems).last().should('not.have.class', 'completed');
     });

@@ -13,6 +13,7 @@
       <todo-item *ngFor="let t of filteredTodoList; trackBy: todoId"
         [todo]="t"
         (remove)="removeTodo(t)"
+        (update)="update()"
       ></todo-item>
     </ul>
   </section>

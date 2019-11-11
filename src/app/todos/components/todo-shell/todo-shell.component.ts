@@ -62,9 +62,11 @@ export class TodoShellComponent {
   removeCompleted() {
     this.todoList = this.todoList.filter(t => !t.completed);
   }
-
   setAllCompletedStates(completed: boolean) {
     this.todoList.forEach(t => (t.completed = completed));
+    localStorage.todos = JSON.stringify(this.todoList);
+  }
+  update() {
     localStorage.todos = JSON.stringify(this.todoList);
   }
 
