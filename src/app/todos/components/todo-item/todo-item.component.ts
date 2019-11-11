@@ -43,6 +43,7 @@ export class TodoItemComponent {
         this.removeTodo();
       } else {
         this.todo.title = this.editText.trim();
+        this.update.emit();
       }
       this.editMode = false;
     }
