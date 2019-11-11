@@ -43,7 +43,7 @@ export class TodoShellComponent {
 
   constructor(private location: Location) {
     // No persistence -> probably not the best idea to start filtered
-    this.location.replaceState('');
+    // this.location.replaceState('');
 
     this.filter = mapPathToFilter(this.location.path());
     this.location.subscribe(s => (this.filter = mapPathToFilter(s.url)));
@@ -58,9 +58,11 @@ export class TodoShellComponent {
   removeTodo(todo: Todo) {
     const ix = this.todoList.indexOf(todo);
     this.todoList.splice(ix, 1);
+    localStorage.todos = JSON.stringify(this.todoList);
   }
   removeCompleted() {
     this.todoList = this.todoList.filter(t => !t.completed);
+    localStorage.todos = JSON.stringify(this.todoList);
   }
   setAllCompletedStates(completed: boolean) {
     this.todoList.forEach(t => (t.completed = completed));
