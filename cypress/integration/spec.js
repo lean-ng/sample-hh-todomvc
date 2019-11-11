@@ -210,7 +210,7 @@ describe('Angular TodoMVC', () => {
       cy.reload();
       cy.get(selectors.todoItems).last().should('have.class', 'completed');
 
-      cy.get(selectors.todoItems).last().find('.toggle').check();
+      cy.get(selectors.todoItems).last().find('.toggle').uncheck();
       cy.reload();
       cy.get(selectors.todoItems).last().should('not.have.class', 'completed');
     });
@@ -368,7 +368,18 @@ describe('Angular TodoMVC', () => {
       cy.get(selectors.clearCompleted).click();
       cy.get('@todos').should('have.length', 1);
       cy.get('@todos').eq(0).should('contain', todoFixtures[1]);
-    })
+    });
+
+    it('should persist items when removed this way', () => {
+      cy.get('@todos').eq(0).find('.toggle').check();
+      cy.get('@todos').eq(2).find('.toggle').check();
+      cy.get(selectors.clearCompleted).click();
+      cy.get('@todos').should('have.length', 1);
+      cy.get('@todos').eq(0).should('contain', todoFixtures[1]);
+      cy.reload();
+      cy.get('@todos').should('have.length', 1);
+      cy.get('@todos').eq(0).should('contain', todoFixtures[1]);
+    });
 
     it('should be hidden when there are no items that are completed', () => {
       cy.get(selectors.clearCompleted).should('not.be.visible');
@@ -456,7 +467,7 @@ describe('Angular TodoMVC', () => {
       cy.log('Showing completed items');
       cy.contains(selectors.filterItems, 'Completed').click();
       cy.reload();
-      cy.get(selectors.todoItems).should('have.length', 2);
+      cy.get(selectors.todoItems).should('have.length', 1);
 
       cy.log('Showing all items');
       cy.contains(selectors.filterItems, 'All').click();

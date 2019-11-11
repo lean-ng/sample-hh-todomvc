@@ -19,10 +19,13 @@ export class TodoItemComponent {
   // Public Output Events
   @Output()
   remove = new EventEmitter();
+  @Output()
+  update = new EventEmitter();
 
   // Template Event Handlers
   toggleCompleted() {
     this.todo.completed = !this.todo.completed;
+    this.update.emit();  
   }
   removeTodo() {
     this.remove.emit();
@@ -40,6 +43,7 @@ export class TodoItemComponent {
         this.removeTodo();
       } else {
         this.todo.title = this.editText.trim();
+        this.update.emit();
       }
       this.editMode = false;
     }

@@ -13,6 +13,7 @@
       <todo-item *ngFor="let t of filteredTodoList; trackBy: todoId"
         [todo]="t"
         (remove)="removeTodo(t)"
+        (update)="update()"
       ></todo-item>
     </ul>
   </section>
@@ -20,13 +21,13 @@
     <span class="todo-count"><strong>{{ activeCount }}</strong> {{ activeCount === 1 ? 'item' : 'items' }} left</span>
     <ul class="filters">
       <li>
-        <a class="selected" href="#/">All</a>
+        <a [class.selected]="filter === 0" href="#/">All</a>
       </li>
       <li>
-        <a href="#/active">Active</a>
+        <a [class.selected]="filter === 1" href="#/active">Active</a>
       </li>
       <li>
-        <a href="#/completed">Completed</a>
+        <a [class.selected]="filter === 2" href="#/completed">Completed</a>
       </li>
     </ul>
     <button [ngClass]="{ hidden: !hasCompleted }" (click)="removeCompleted()" class="clear-completed">Clear completed</button>

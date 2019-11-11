@@ -14,7 +14,6 @@ import { VisibilityFilter, mapPathToFilter } from '../../models/visibility-filte
 })
 export class TodoShellComponent {
   // Component State
-  todoList: Todo[] = [];
   filter: VisibilityFilter;
 
   // Computed Component State - not the best idea
@@ -38,9 +37,13 @@ export class TodoShellComponent {
     return this.todoList.findIndex(t => !t.completed) === -1;
   }
 
+  // App state (dependency on local storage)
+  private nextId: number   =  JSON.parse(localStorage.nextId || '1');
+  private todoList: Todo[] =  JSON.parse(localStorage.todos  || '[]');
+
   constructor(private location: Location) {
     // No persistence -> probably not the best idea to start filtered
-    this.location.replaceState('');
+    // this.location.replaceState('');
 
     this.filter = mapPathToFilter(this.location.path());
     this.location.subscribe(s => (this.filter = mapPathToFilter(s.url)));
@@ -48,22 +51,25 @@ export class TodoShellComponent {
 
   // Template Event Handlers
   createTodo(title: string) {
-    const id =
-      this.todoList.length === 0
-        ? 1
-        : this.todoList[this.todoList.length - 1].id + 1;
-    this.todoList.push({ id, title, completed: false });
+    this.todoList.push({ id: this.nextId, title, completed: false });
+    localStorage.nextId = ++this.nextId;
+    localStorage.todos  = JSON.stringify(this.todoList);
   }
   removeTodo(todo: Todo) {
     const ix = this.todoList.indexOf(todo);
     this.todoList.splice(ix, 1);
+    localStorage.todos = JSON.stringify(this.todoList);
   }
   removeCompleted() {
     this.todoList = this.todoList.filter(t => !t.completed);
+    localStorage.todos = JSON.stringify(this.todoList);
   }
-
   setAllCompletedStates(completed: boolean) {
     this.todoList.forEach(t => (t.completed = completed));
+    localStorage.todos = JSON.stringify(this.todoList);
+  }
+  update() {
+    localStorage.todos = JSON.stringify(this.todoList);
   }
 
   // Optimizing ngFor-Directive
