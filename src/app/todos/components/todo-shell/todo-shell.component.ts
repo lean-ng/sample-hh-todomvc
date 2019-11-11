@@ -65,6 +65,7 @@ export class TodoShellComponent {
 
   setAllCompletedStates(completed: boolean) {
     this.todoList.forEach(t => (t.completed = completed));
+    localStorage.todos = JSON.stringify(this.todoList);
   }
 
   // Optimizing ngFor-Directive
