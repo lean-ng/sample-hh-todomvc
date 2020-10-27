@@ -1,6 +1,10 @@
 
+import { Injectable } from '@angular/core';
 import { Todo } from '../model';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class LocalPersistenceService {
 
   async getAll(): Promise<Todo[]> {

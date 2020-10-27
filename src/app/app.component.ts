@@ -9,8 +9,7 @@ import { LocalPersistenceService } from './todos/services/local-persistence.serv
 })
 export class AppComponent implements OnInit {
 
-  // Persistence Service ohne DI
-  persistenceSvc = new LocalPersistenceService();
+  constructor(private persistenceSvc: LocalPersistenceService) {}
 
   // Lokaler Component State
   todos: Todo[] = [];
@@ -21,6 +20,8 @@ export class AppComponent implements OnInit {
   }
 
   createTodo(title: string): void {
+    // Delegiere Erzeugung an Service. Dieser liefert erzeugtes Todo
+    // zurück. Dieses wird dann dem lokalen State hinzugefügt
     this.persistenceSvc.createTodo(title).then(todo => this.todos.push(todo));
   }
 }
