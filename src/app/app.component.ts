@@ -11,7 +11,8 @@ export class AppComponent implements OnInit {
 
   constructor(private persistenceSvc: LocalPersistenceService) {}
 
-  // Lokaler Component State
+  // Lokaler Component State, zur Zeit auch Anwendungsstate.
+  // Wird über Inputs in den Component-Tree nach unten gereicht
   todos: Todo[] = [];
 
   // Einmaliger Aufruf bei der Initialisierung der Komponente
