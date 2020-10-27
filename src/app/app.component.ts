@@ -22,6 +22,22 @@ export class AppComponent implements OnInit {
   createTodo(title: string): void {
     // Delegiere Erzeugung an Service. Dieser liefert erzeugtes Todo
     // zurück. Dieses wird dann dem lokalen State hinzugefügt
-    this.persistenceSvc.createTodo(title).then(todo => this.todos.push(todo));
+    this.persistenceSvc.createTodo(title).then(todo => {
+      // Immutable Pattern: keine Mutation, sondern neuer State
+      this.todos = [ ...this.todos, todo ];
+    });
+  }
+
+  toggleTodo(todo: Todo): void {
+    this.persistenceSvc.updateTodo(todo.id, {
+      completed: !todo.completed
+    }).then( changedTodo => {
+      // lokale State Änderung (Mutation) - uncool
+      // todo.completed = t.completed;
+      // Immutable Pattern: neuer lokaler State!
+      // this.todos = [ ...this.todos ];
+      this.todos =
+        this.todos.map( t => t.id === todo.id ? changedTodo : t );
+    });
   }
 }

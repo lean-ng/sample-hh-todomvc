@@ -1,6 +1,7 @@
 <li [ngClass]="{ completed: todo.completed, editing: false }">
   <div class="view">
-    <input class="toggle" type="checkbox" [checked]="todo.completed">
+    <input class="toggle" type="checkbox"
+      [checked]="todo.completed" (change)="toggleTodo()">
     <label>{{ todo.title }}</label>
     <button class="destroy"></button>
   </div>
