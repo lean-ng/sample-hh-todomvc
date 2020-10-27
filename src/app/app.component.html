@@ -15,6 +15,7 @@
       <app-todo-item
         *ngFor="let t of todos" [todo]="t"
         (toggleState)="toggleTodo(t)"
+        (destroyTodo)="destroyTodo(t.id)"
       ></app-todo-item>
     </ul>
   </section>

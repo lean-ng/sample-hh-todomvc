@@ -40,4 +40,10 @@ export class AppComponent implements OnInit {
         this.todos.map( t => t.id === todo.id ? changedTodo : t );
     });
   }
+
+  destroyTodo(id: number): void {
+    this.persistenceSvc.deleteTodo(id).then(() => {
+      this.todos = this.todos.filter(t => t.id !== id);
+    });
+  }
 }

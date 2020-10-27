@@ -17,6 +17,9 @@ export class TodoItemComponent implements OnInit {
   @Output()
   toggleState = new EventEmitter<void>();
 
+  @Output()
+  destroyTodo = new EventEmitter<void>();
+
   constructor() { }
 
   ngOnInit(): void {
@@ -25,4 +28,5 @@ export class TodoItemComponent implements OnInit {
   toggleTodo(): void {
     this.toggleState.emit();
   }
+
 }
