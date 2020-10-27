@@ -11,7 +11,8 @@ export class FooterComponent implements OnInit, OnChanges {
   @Input()
   todos: Todo[];
 
-  activeCount = 17;
+  activeCount = 0;
+  hasCompletedTodos = false;
 
   constructor() { }
 
@@ -22,6 +23,7 @@ export class FooterComponent implements OnInit, OnChanges {
   // Das bedeutet: ich muss in der App Immutability-Pattern bedienen
   ngOnChanges(): void {
     this.activeCount = this.todos.reduce( (count, todo) => todo.completed ? count : count + 1, 0  );
+    this.hasCompletedTodos = this.todos.findIndex(t => t.completed) !== -1;
   }
 
   // Bad practices
